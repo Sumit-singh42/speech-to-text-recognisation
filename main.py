@@ -17,28 +17,28 @@ def run_cli(audio_path=None, record_duration=None, use_gemini=False, clear_memor
             try:
                 record_duration = int(input("Enter record duration in seconds: ").strip())
             except ValueError:
-                print("❌ Invalid duration.")
+                print("Invalid duration.")
                 return
 
     if record_duration and not audio_path:
         audio_path = record_audio_cli(record_duration)
         if not audio_path:
-            print("❌ Recording failed.")
+            print("Recording failed.")
             return
 
     if not audio_path or not os.path.exists(audio_path):
-        print(f"❌ File not found: {audio_path}")
+        print(f"File not found: {audio_path}")
         return
 
-    print("\n🎤 Transcribing...")
+    print("Transcribing")
     transcript = transcribe_file(audio_path)
-    print("📝 Transcript:", transcript)
+    print("Transcript:", transcript)
 
-    print("\n😊 Detecting emotion with context...")
+    print("Detecting emotion with context")
     emotion = detect_emotion_with_context(transcript, use_gemini)
     print("Emotion:", emotion)
 
-    print("\n✏️ Correcting grammar...")
+    print("Correcting grammar")
     corrected = correct_grammar(transcript, use_gemini)
     print("Corrected:", corrected)
     add_entry(transcript, emotion)
@@ -54,4 +54,5 @@ if __name__ == "__main__":
 
     run_cli(audio_path=args.audio, record_duration=args.record,
             use_gemini=args.use_gemini, clear_memory=args.clear_memory)
+
     print("Emotion detection completed.")       
